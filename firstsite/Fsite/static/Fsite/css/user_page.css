@@ -1,0 +1,202 @@
+.user_page_main{
+    display: flex;
+    flex-wrap: wrap;
+}
+.uer_page_main_left{
+    display: flex;
+    flex-direction: column;
+    max-width: 300px;
+}
+.user_page_main_right{
+    float: right;
+    margin-left: 20px;
+    width: 34.8%;
+    min-width: 140px;
+}
+.user_page_main_right .user_nick{
+    font-style: normal;
+    font-weight: 500;
+    font-size: 28px;
+
+}
+.user_page_main_right .user_info a{
+    color: #A0A0A0;
+    font-style: normal;
+    font-size: 13px;
+}
+.user_page{
+    margin: 0 20px;
+}
+.user_page form{
+    width: 50%;
+}
+.uer_page_main_left .main_left_ava{
+    width: 175px;  /*70 * 2.5*/
+    height: 175px;
+    border-radius: 50%;
+    border: 1px solid black;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 16px;
+}
+.main_left_ava_frame img{
+    width: 258px;
+    height: 258px;
+}
+.fire_frame{
+    position: relative;
+}
+.main_left_ava_frame{
+    position: absolute;
+    top: -24px;
+    left: -24px;
+}
+#open_avatar_change_form.close{
+    display: none;
+}
+.open_form_button.close{
+    display: none;
+}
+#open_avatar_change_form.open{
+    display: block;
+    margin-bottom: 10px;
+}
+.open_form_button{
+    margin-left: auto;
+    margin-right: auto;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+.open_form_button:hover{
+    text-decoration: underline;
+}
+.user_friends_frame{
+    margin-top: 40px;
+}
+.subscribed_to{
+    margin-bottom: 10px;
+    letter-spacing: -0.06em;
+}
+.user_friends{
+    display: flex;
+}
+.friend_ava{
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+}
+#id_phone_number, #id_birth_date, #id_status, .form_fields{
+    font-family: Inter;
+    font-size: 14px;
+    width: 98%;
+}
+#id_about_me{
+    width: 98%;
+}
+.submit_button_1{
+    width: 130px;
+    height: 40px;
+    color: #241F36;
+    border-radius: 5px;
+    padding: 10px 25px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 500;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+    box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
+    7px 7px 20px 0px rgba(0,0,0,.1),
+    4px 4px 5px 0px rgba(0,0,0,.1);
+    background-color: rgb(255, 212, 82);
+    outline: none;
+    width: 100%;
+    margin-top: 10px;
+}
+.btn-3 {
+    height: 26px;
+    line-height: 42px;
+    padding: 0;
+    border: none;
+
+}
+.btn-3 span {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    font-family: MullerMedium;
+    font-size: 14px;
+}
+.btn-3:before, .btn-3:after {
+    position: absolute;
+    content: "";
+    right: 0;
+    top: 0;
+    background: linear-gradient(180deg, #241F36 0%, #241F36 100%);
+    transition: all 0.3s ease;
+}
+.btn-3:before {
+    height: 0%;
+    width: 2px;
+}
+.btn-3:after {
+    width: 0%;
+    height: 2px;
+}
+.btn-3:hover{
+    background: transparent;
+    box-shadow: none;
+}
+.btn-3:hover:before {
+    height: 100%;
+}
+.btn-3:hover:after {
+    width: 100%;
+}
+.btn-3 span:hover{
+    color: #241F36;
+}
+.btn-3 span:before, .btn-3 span:after {
+    position: absolute;
+    content: "";
+    left: 0;
+    bottom: 0;
+    background: linear-gradient(180deg, #241F36 0%, #241F36 100%);
+    transition: all 0.3s ease;
+}
+.btn-3 span:before {
+    width: 2px;
+    height: 0%;
+}
+.btn-3 span:after {
+    width: 0%;
+    height: 2px;
+}
+.btn-3 span:hover:before {
+    height: 100%;
+}
+.btn-3 span:hover:after {
+    width: 100%;
+}
+select{
+    width: 100%;
+}
+.user_page_user_info{
+    margin-bottom: 12px;
+}
+@media all and (max-width: 956px){
+    .user_page form{
+        width: 100%;
+    }
+    .user_page_main_right{
+        width: 100%;
+        margin-left: 0px;
+        margin-top: 10px;
+    }
+    select{
+        width: 100%;
+    }
+}

@@ -1,0 +1,249 @@
+::placeholder {
+    font-family: MullerMedium;
+}
+.container{
+    min-height: 100%;
+}
+.muller_medium{
+    font-family: MullerMedium;
+}
+.nirmala_ui{
+    font-family: Nirmala UI;
+}
+.inter{
+    font-family: Inter;
+}
+a{
+    text-decoration: none;
+    color: black;
+}
+html{
+    height: 100%;
+}
+body{
+    height: 100%;
+}
+footer{
+    flex: 0 0 auto;
+}
+.content_text p {
+    margin-top: 0px;
+}
+::-webkit-scrollbar {
+    width: 10px;
+    height: 8px;
+    overflow: auto;
+}
+::-webkit-scrollbar-track {
+    background-color: #544A7D;
+}
+::-webkit-scrollbar-thumb {
+    background-color: #FFD452;
+}
+.main{
+    display: flex;
+    flex-wrap: wrap;
+}
+.main_left{
+    width: 70%;
+    float: left;
+    display: flex;
+    flex-direction: column;   
+}
+.main_right{
+    float: right;
+    width: 30%;
+    min-width: 140px;
+}
+.user{
+    font-weight: 500;
+    line-height: 20px;
+    text-decoration: none;
+    color: black;
+    margin-right: 10px;
+}
+.under_user_info{
+    margin-top: 20%;
+    width: 100%;
+    margin-left: auto;
+    display: flex;
+}
+.rate_info {
+    margin-left: 30px;
+}
+.main_user_frame > div{
+    width: 70%;
+    margin-bottom: 30px;
+    margin-left: auto;
+}
+.user_info{
+    display: flex; 
+    flex-direction: column; 
+    border: 1px solid black;
+    min-height: 300px;
+    padding: 10px;
+    background-color: #FFD452;
+}
+.img_logout{
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+}
+.inter_font{
+    font-family: Inter;
+}
+.user_main_right_info_frame{
+    display: flex; 
+    flex-direction: column; 
+    margin-right: 30px;
+}
+.user_main_right_info{
+    display: flex;
+    width: 100%; 
+}
+.upper_user_info{
+    margin-left: auto; 
+    display: flex; 
+    width: 100%;
+}
+.upper_user_info a{
+    margin-top: auto;
+    margin-bottom: auto;
+}
+.fire_frame{
+    position: relative;
+}
+.user_main_right_ava_frame{
+    position: absolute;
+    top: -8px;
+    left: -8px;
+}
+.user_main_right_ava_frame img{
+    width: 86px; 
+    height: 86px; 
+}
+.user_main_right_ava{
+    width: 70px; 
+    height: 70px; 
+    margin-right: 10px;
+}
+.regitration_login{
+    font-size: 20px;
+    color: black;   
+}
+.regitration_login a{
+    color: black;
+    text-decoration: none;
+}
+.interesting_news_menu{
+    display: flex;
+    flex-direction: column ;
+    margin-top: 10%;
+}
+.random_news{
+    background-color: #FFD452;
+    width: 100%;
+    height: auto;
+}
+.interesting_news_name{
+    font-size: 19px;
+    line-height: 20px;
+    letter-spacing: -0.06em;
+    word-break: break-all;
+    font-weight: 100;
+}
+.adaptive_table {
+    border-radius: 5px;
+    font-weight: normal;
+    border: 1px solid;
+    border-collapse: collapse;
+    width: 100%;
+    max-width: 100%;
+    white-space: nowrap;
+}   
+.adaptive_table td, .adaptive_table th {
+    text-align: center;
+    padding: 5px;
+    border: none;
+}
+.adaptive_table td {
+    border-right: 1px solid;
+}
+@media all and (max-width: 956px){
+    .adaptive_table {
+        display: block;
+        background-color: white;
+    }
+    .adaptive_table thead,
+    .adaptive_table tbody,
+    .adaptive_table thead th {
+        display: block;
+    }
+    .adaptive_table thead {
+        float: left;
+        height: 100%;
+    }
+    .adaptive_table tbody {
+        width: auto;
+        position: relative;
+        overflow-x: auto;
+    }
+    .adaptive_table td, .adaptive_table th {
+        box-sizing: border-box;
+        overflow-x: hidden;
+        overflow-y: auto;
+        text-overflow: ellipsis;
+    }
+    .adaptive_table thead th {
+        text-align: center;
+    }
+    .adaptive_table tbody tr {
+        display: table-cell;
+    }
+    .adaptive_table td {
+        display: block;
+        text-align: center;
+    }
+    .header_menu{
+        display: none;
+    }
+    header.header_desktop{
+        display: none;
+    }
+    .burger img{
+        height: 56px;
+        width: 56px; 
+        filter: invert(97%) sepia(74%) saturate(4841%) hue-rotate(316deg) brightness(105%) contrast(103%); 
+    }
+    .burger{
+        position: absolute;
+    }
+    .header_title{
+        margin-left: auto;
+        margin-right: auto;
+        width: 30%;
+        min-width: 118px;
+        max-width: 138px;
+    }
+    .header_with_menu{
+        position: fixed;
+    }
+    .header_mobile{
+        display: flex;   
+    }
+    .link{
+        display: block;
+    }
+    .header_menu_for_mobile .menu{
+        display: block;
+    }
+    .main_right{
+        display: none;
+    }
+    .main_left{
+        width: 100%;   
+    }
+    .main{
+        padding-top: 20px;
+    }
+}

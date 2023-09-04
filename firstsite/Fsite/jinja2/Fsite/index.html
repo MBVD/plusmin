@@ -1,0 +1,48 @@
+{% extends 'Fsite/base.html' %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ static('Fsite/css/index.css') }}">
+{% endblock %}
+
+{% block main_left %}
+    {% for alert in alerts %}
+        <div class = "content">
+            <div class = "main_content_title nirmala_ui "><a href="{{ url('news_with_id', alert.pk) }}"> {{alert.title}} </a></div>
+            <div class = "user_nick" style = "color: gray;"><a href = "{{ url('user_profile', alert.author ) }}">{{alert.author}} <br> <span>{{format_datetime(alert.time_update)}}</span></a></div>
+            <div class = "content_text inter_font"> {{ alert.content|safe }} </div>
+        </div>
+    {% endfor %}
+{% endblock %}
+
+{% block main_right %}
+    {% include ('Fsite/share/user_info.html') %}
+    <div class = "rating_main">
+        <table>
+            <tr>
+                <th>№</th>
+                <th>Пользователь</th>
+                <th>Рейтинг</th>
+            </tr>
+            {% for user in rating %}
+                {% if loop.index % 2 == 0 %}
+                        <tr>
+                            <td class = "white"><a href="{{ url('user_profile', user) }}">{{loop.index}}</a></td>
+                            <td class = "white"><a href="{{ url('user_profile', user) }}">{{user}}</a></td>
+                            <td class = "white"><a href=" {{ url('rating') }} ">{{user.rate}}</a></td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td class = "black"><a href="{{ url('user_profile', user) }}">{{loop.index}}</a></td>
+                            <td class = "black"><a href="{{ url('user_profile', user) }}">{{user}}</a></td>
+                            <td class = "black"><a href=" {{ url('rating') }} ">{{user.rate}}</a></td>
+                        </tr>
+                {% endif %}
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}
+{% block main %}
+    {{ super() }}
+{% endblock %}
+{% block js %}
+{% endblock %}

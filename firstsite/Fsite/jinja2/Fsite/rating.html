@@ -1,0 +1,60 @@
+{% extends 'Fsite/base.html' %}
+{% block head %}
+    <link rel="stylesheet" href="{{ static('Fsite/css/rating.css') }}">
+{% endblock %}
+{% block content %}
+{% endblock %}
+
+{% block main_left %}
+    <table class = "rating_table adaptive_table">
+        <thead>
+            <tr style = "background-color: #544A7D;">
+                <th>№</th>
+                <th>Пользователь</th>
+                <th>Рейтинг</th>
+            </tr>
+        </thead>
+        {% for user in page_obj %}
+            <tr>
+                <td ><a href="{{ url('user_profile', user) }}">{{loop.index}}</a></td>
+                <td class = "user_in_table"><a href="{{ url('user_profile', user) }}">{{user}}</a></td>
+                <td><a href=" {{ url('rating') }} ">{{user.rate}}</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous() %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number() }}">←</a>
+            {% endif %}
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            {% if page_obj.has_next() %}
+                <a href="?page={{ page_obj.next_page_number() }}">→</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+{% endblock %}
+
+{% block main_right%}
+    {% include ('Fsite/share/user_info.html') %}
+    <div class = "sortings_rating_table_frame">
+        <div class="sortings_rating_table">
+            <form action="" method = "get" class = "main_right_filter">
+                {% for field in my_filter.form %}
+                    <div class = "form_field">
+                        <div class = "form_field_label half_form_field muller_medium">
+                            <span>{{field.label}}</span>
+                        </div>
+                        <div class = "form_field_select half_form_field inter">
+                            {{field}}
+                        </div>
+                    </div>
+                {% endfor %}
+                <button type = "submit">Использовать фильтры</button>
+            </form>
+        </div>
+        
+    </div>
+{% endblock %}

@@ -1,0 +1,141 @@
+{% extends 'Fsite/base.html' %}
+
+{% block head %}
+    <!-- <link rel="stylesheet" href="{{ static('Fsite/css/index.css') }}"> -->
+    
+    <link rel="stylesheet" type="text/css" href="{{ static('Fsite/js/slick/slick.css') }}"/>
+    <link rel="stylesheet" type="text/css" href="{{ static ('Fsite/js/slick/slick-theme.css') }}"/>
+    <script src="{{ static('Fsite/js/slick/slick.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ static('Fsite/css/find_information.css') }}">
+{% endblock %}
+
+{% block main_left %}
+    <form action="{{url('find_information')}}">
+        <input placeholder="Поиск" class = "main_left_search" maxlength="10" name = 'q'/>
+    </form>
+    <div class="switcher inter">
+        <a data-page-n = "0" class = "active_filter">Все</a>
+        <a data-page-n = "1">Новости</a>
+        <a data-page-n = "2">Пользователи</a>
+    </div>
+    <div class = "find_info_slider" >
+        <div class="all_data">
+            <div class = "slider_content_title muller_medium">
+                Контесты
+            </div>
+            <div class = "slider_content_contests">
+                {% for contest in contests %}
+                    <div class = "contest">
+                        {% if contest.is_finished() %}
+                            <div class="contest_header">
+                                <div class = "contest_title">{{ contest }}</div>
+                                <div class = "contest_status red muller_medium">
+                                    <a href="{{ url('contest', contest.pk) }}">
+                                        Завершен >> 
+                                    </a>
+                                    
+                                </div> 
+                            </div>
+
+                            {% elif contest.is_running() %}
+                                <div class="contest_header">
+                                    <div class = "contest_title">{{ contest }}</div>
+                                    <div class="contest_status orange muller_medium">
+                                        <a href="{{ url('contest', contest.id) }}">В процессе >></a>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="contest_header">
+                                    <div class = "contest_title">{{ contest }}</div>
+                                    <div class="contest_status green muller_medium">
+                                    {% if request.user in contest.registered_users.all() %}
+                                        <div class="contest_url">
+                                            Зарегистрированны
+                                        </div>
+                                        {% else %}
+                                            <a href="{{ url('registration_for_contest', contest.pk, request.user) }}">Зарегистрироваться-></a>
+                                    {% endif %}</div>
+                                </div>
+                        {% endif %}
+                        
+                    </div>
+                {% endfor %}
+                {% if not contests %}
+                    <p>Нету совпадений</p>
+                {% endif %}
+            </div>
+            <div class = "slider_content_title muller_medium">
+                Публикации 
+            </div>
+            <div class = "slider_content_news">
+                {% for single_news in news %}
+                    <div class = "news">
+                        <div class = "news_title muller_medium"><a href="{{ url('news_with_id', single_news.pk) }}">{{ single_news }}</a></div>
+                        <div class = "news_author inter">{{ single_news.author }}</div>
+                        <div class = "news_content inter">{{ single_news.content|safe }}</div>
+                        <div class = "read_more inter"><a href="{{ url('news_with_id', single_news.pk) }}">Читать далее </a></div>
+                    </div>
+                {% endfor %}
+                {% if not news %}
+                    <p>Нету совпадений</p>
+                {% endif %}
+            </div>
+            <div class = "slider_content_title muller_medium">
+                Пользователи 
+            </div>
+            <div class = "slider_content_users">
+                {% for user in users %}
+                    <div class = "user">
+                        <a href="{{ url('user_profile', user) }}">
+                            <img src="{{ user.avatar.url }}" alt="">
+                        </a>
+                    </div>
+                {% endfor %}
+                {% if not users %}
+                    <p>Нету совпадений</p>
+                {% endif %}
+            </div>
+        </div>
+        <div class = "find_news">
+            Найденные новости по запросу: 
+            {% for news in news %}
+                {% if loop.index0 == 0 %}
+                    <a href="{{url('news_with_id', news.pk)}}">
+                        <i>📰{{news.title}}</i> 
+                    </a>
+                {% else %}
+                    <a href="{{url('news_with_id', news.pk)}}">
+                        <i>📰{{news.title}}</i>
+                    </a>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class  = "find_users">
+            Найденные пользователи по запросу:
+            {% for user in users %}
+                <a href="{{ url('user_profile', user.username) }}">
+                    <img src="{{static('Fsite/images/users.png')}}" alt="" style="width: 14px; height:14px; margin-bottom: -2px;">
+                    {{user.username}}
+                </a>
+                
+            {% endfor %}
+        </div>
+    </div>
+    <script>
+        $('.find_info_slider').slick({
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            infinite: true,
+            swipe: false
+        });
+
+        $('.switcher a').each(function(i, el) {
+            $(el).on('click', function() {
+                $('.find_info_slider').slick('slickGoTo', i);
+                $(".active_filter").removeClass('active_filter');
+                $( this ).addClass('active_filter');
+            });
+        });
+    </script>
+    
+{% endblock %}

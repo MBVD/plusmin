@@ -1,0 +1,104 @@
+<head>
+    <link rel="stylesheet" href="{{ static('Fsite/css/header.css') }}">
+</head>
+<header role="banner" class = "header_desktop">
+    <div class = "logo">
+        <a href = "{{ url('home') }}">
+            <img src = "{{ static('Fsite/images/plusminus.png') }}"/>
+        </a>
+    </div>
+    <div class = "header_title muller_medium">
+        Сайт по подготовке к олимпиадам
+    </div> 
+
+    <div class = "header_reg" >
+        <a class = "header_phone muller_medium" href="tel: 8 708 970 70 50"> <img src="{{ static('Fsite/images/sotka.png') }}" class = "header_phone_image"> 8 708 970 70 50 </a>
+        <a class = "header_mail muller_medium" href="mailto: plusminus@gmail.com"> <img src="{{ static('Fsite/images/@.png') }}" class = "header_mail_image"> plusminus@gmail.com </a>
+    </div>
+
+</header>
+<!-- для мобилки !!! -->
+<header role = "banner" class = "header_mobile">
+    <a id = "burger" onclick="open_burger(this)"> 
+        <img src="{{ static('Fsite/images/burger.svg') }}" alt="" id = "burger_img">
+    </a>
+    <a href="{{ url('home') }}" class = "header_title">
+        <img src = "{{ static('Fsite/images/plusminus.png') }}"/>
+    </a>
+    {% if request.user.is_authenticated %}
+        <div class = "user_header_info authenticated">
+            
+                <a href="{{ url('user_profile', request.user.username) }}" class = "user_header_avatar_link">
+                    <img src="{{ request.user.avatar.url }}" alt="" class = "user_header_avatar">
+                </a>  
+                <a href="{{ url('logout') }}" class = "img_logout_link"><img src="{{ static('Fsite/images/logout.svg') }}" alt="logout" class = "img_logout"></a>
+        </div>
+        {% else %}
+        <div class = "user_header_info not_authenticated">
+            <div class = "regitration_login muller_medium">
+                <a href="{{ url ('login') }}" style = "color: #FFD452;">Войти</a>
+            </div>
+        </div>
+    {% endif %}
+</header>
+<div id = "back_to_open" onclick="onlyclose(this)" style = "display: none;"></div>
+<div class = "header_menu_for_mobile close">
+    <div class = "menu muller_medium">
+        {% for key, value in urls_for_mobile.items() %}
+            {% if value == request.path %}
+                <div class = "link">
+                    <a href = {{value}} class = "active_url_mobile url_mobile">{{key}}</a>
+                </div>
+            {% else %}
+                <div class = "link">
+                    <a href = {{value}} class = "deactive_url_mobile url_mobile" >{{key}}</a>
+                </div>                
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+<!-- Конец мобилки !!! -->
+<div class = "header_menu muller_medium" id = "menu">
+    {% for key, value in navigation_pannel.items() %}
+        {% if value == request.path %}
+            <a href = {{value}} class = "active_url">{{key}}</a>
+        {% else %}
+            <a href = {{value}} class = "deactive_url" >{{key}}</a>                
+        {% endif %}
+    {% endfor %}
+    
+    <form action="{{url('find_information')}}">
+        <input placeholder="Поиск" class = "header_search" maxlength="10" name = 'q'/>
+    </form>
+</div>
+<script>
+    function open_burger(burger){
+        header_for_mobile = document.getElementsByClassName("header_menu_for_mobile")[0];
+        image = document.getElementById("burger_img");
+        back_to_open = document.getElementById("back_to_open");
+        
+        if (header_for_mobile.classList.contains("close")){ // открытие
+            image.src = "{{ static('Fsite/images/cross.svg') }}"
+            image.classList.remove("menu_1")
+            image.classList.add("cross")
+            header_for_mobile.classList.remove("close");
+            header_for_mobile.classList.add("open");
+            back_to_open.style.display = "block";
+        }
+        else{
+            onlyclose();
+        }
+    }
+    function onlyclose(){
+        header_for_mobile = document.getElementsByClassName("header_menu_for_mobile")[0];
+        image = document.getElementById("burger_img");
+        back_to_open = document.getElementById("back_to_open");
+       
+        image.src = "{{ static('Fsite/images/burger.svg') }}"
+        image.classList.remove("cross")
+        image.classList.add("menu_1")
+        header_for_mobile.classList.remove("open");
+        header_for_mobile.classList.add("close");
+        back_to_open.style.display = "none";
+    }
+</script>

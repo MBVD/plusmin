@@ -1,0 +1,24 @@
+{% extends 'Fsite/base.html' %} 
+{% block main_left %}
+    <div>
+        {{ contest.name }}
+        <form action="{{ url('contest_checking', contest.id) }}" method = POST>
+            {% csrf_token %}
+            {{ forms.management_form }}
+            <div style = "margin-top: 30px;">
+                {% for form in forms %}
+                    {{ form }}
+                {% endfor %}
+            </div>
+            <button>Выставить</button>
+        </form>
+    </div>
+{% endblock %}
+
+{% block main_right %}
+    {% include ('Fsite/share/user_info.html') %}
+{% endblock %}
+
+{% block main %}
+    {{ super()}}
+{% endblock %}

@@ -1,0 +1,41 @@
+<head>
+    <link rel="stylesheet" href="{{ static('Fsite/css/styles.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title> {{ title }} </title>
+    <style>
+        @font-face {
+         font-family: MullerMedium; 
+         src: url( "{{ static('Fsite/fonts/MullerMedium.ttf') }}" );
+        }
+        @font-face {
+            font-family: Nirmala UI;
+            src: url( "{{ static('Fsite/fonts/Nirmala.ttf') }}" );
+        }
+        @font-face {
+            font-family: Inter;
+            src: url( "{{ static('Fsite/fonts/Inter-Medium.ttf') }}" );
+        }
+    </style>
+</head>
+<body style="background-image: url('{{ static('Fsite/images/base_background.jpg') }}'); background-repeat: no-repeat; background-size: cover; background-position: top; background-attachment: fixed;">
+    <a href="{{url('home')}}"></a>
+    <form method="post" style="margin: 0px 50px; display: flex; height: 100%;">
+        <div class = "muller_medium div_inside_form">
+            <div style = "margin: auto 0px;">
+                {% csrf_token %}
+                <p class = "entrance"> Регистрация на Plus<span class = "entrance_and">&</span>Minus</p>
+                {% for f in form %}
+                    <div class = "login_input">
+                        {{ f }}
+                    </div>
+                    <div class="form-error">{{ f.errors }}</div>
+                {% endfor %}
+                <button class = "submit_button btn-3" type="submit"> <span style = "word-wrap: break-word;">Зарегистрироваться</span> </button>
+                <p class = "or">Или</p>
+                <div style = "text-align: center;">
+                    <a href="{{url('login')}}" class = "register">Вход</a>
+                </div>
+            </div>
+        </div>
+    </form>     
+</body>

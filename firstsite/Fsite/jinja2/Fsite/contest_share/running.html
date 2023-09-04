@@ -1,0 +1,26 @@
+
+<div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+    <div style="margin: auto 0px;">
+        <span class="inter" style = "font-size: 20px; color: #544A7D;">
+            {{ contest.name }}
+        </span>
+    </div>
+    <div class = "contest_status orange">
+        <span class = "muller_medium">
+            Контест идет
+        </span>
+    </div>
+</div>
+
+
+{% for problem in contest.problems.all() %}
+    <div class = "running_content">
+        <div class = "running_content_title "><a href="{{ url('problem_in_contest', contest.id, problem.id) }}">{{ problem.title }}</a></div>
+        <div class = "author inter">
+            {{problem.author}}
+            <br>
+            <span>{{ format_datetime(problem.time_create) }}</span>
+        </div>
+    </div>
+{% endfor %}
+

@@ -1,0 +1,58 @@
+<div class = "user_info_frame">
+    <div class = "user_info">
+        {% if request.user.is_authenticated %}
+            <div class = "upper_user_info">
+                <a href = "{{ url('user_profile', request.user.username) }}">
+                <div class = "fire_frame">
+                    <img class = "user_main_right_ava" src = "{{ request.user.avatar.url }}"/>
+                    <div class = "user_main_right_ava_frame">
+                        <img src="{{ static('Fsite/images/fire_frame.png') }}">
+                    </div>
+                </div>
+                </a>
+                <div class = "user_main_right_info_frame">
+                    <div class = "user_main_right_info">
+                        <a href=" {{ url('user_profile', request.user.username) }} " class = "muller_medium user">{{ request.user.username }} <i class="{{ request.user.country.flag_css }}"></i> </a>
+                        <a href="{{ url('logout') }}"><img src="{{ static('Fsite/images/logout.png') }}" alt="logout" class = "img_logout"></a>
+                    </div>
+                    <a href="{{ url('user_profile', request.user.username) }}">Статус: {{ request.user.status}}</a>
+                    
+                    <div id = "clock"></div>
+                </div>
+            </div>
+            <div class = "under_user_info muller_medium">
+                <div class = "friends_count">
+                    <a href="{{ url('user_profile', request.user.username) }}">
+                        <div>{{ friends_count }}</div>
+                        <div>Friends</div>
+                    </a>
+                </div>
+                <div class = "rate_info under_user_info_element">
+                    <a href="{{ url('rating') }}">
+                        <div>  
+                            {{ request.user.rate}}
+                        </div>
+                        <div>
+                            Rate
+                        </div>
+                    </a>
+                </div>   
+            </div>
+            <hr style = "background-color: black; width: 100%; height: 0.5px; color: black;">
+            <div class = "interesting_news_menu">
+                {% if random_news %}
+                    <div class = "random_news">
+                        <a href="{{url ('news_with_id', random_news.pk)}}" class = "muller_medium interesting_news_name">{{ random_news }}</a>
+                        <br>
+                        <a href="{{ url ('news_with_id', random_news.pk )}}" class = "goto_article"> перейти к статье</a>
+                    </div>
+                {% endif %}
+            </div>
+        {% else %}
+            <div class = "regitration_login muller_medium">
+                <a href="{{ url('register') }}" style = "margin-left: auto;">Регистрация</a> |
+                <a href="{{ url ('login') }}">Войти</a>
+            </div>
+        {% endif %}
+    </div>
+</div>

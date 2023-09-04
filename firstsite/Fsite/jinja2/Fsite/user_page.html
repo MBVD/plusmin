@@ -1,0 +1,140 @@
+{% extends 'Fsite/base.html' %}
+{% block head %}
+<link rel="stylesheet" href="{{static('Fsite/css/user_page.css')}} ">
+{% endblock %}
+{% block content %}
+    <section class = 'user_page'> 
+        {% if request.user.username == user.username %}
+            <form action="{{ url('user_profile', request.user.username) }}" method="post", enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class = "user_page_main">
+                    <div class = "uer_page_main_left">
+                        <img src="{{  user.avatar.url }}" alt="" class = "main_left_ava">
+                        <!-- <div class = "fire_frame">
+                            <img src="{{  request.user.avatar.url }}" alt="" class = "main_left_ava">
+                            <div class = "main_left_ava_frame">
+                                <img src="{{ static('Fsite/images/fire_frame.png') }}">
+                            </div>
+                        </div> -->
+                        <a onclick="open_form(this)" type = "button" class = "open_form_button">
+                            Изменить аватарку
+                        </a>
+                        <div id = "open_avatar_change_form" class = "close">
+                            {{ form.avatar }}
+                            <div style = "color: gray; word-wrap: break-word; margin: 10px 0px;">
+                                Не стоит стесняться своих фотографий. Желательно закидывать изображения квадратного разрешения
+                            </div>
+                        </div>
+                        <div class = "form-error">{{ form.avatar.errors }}</div>
+                        <div class = "main_left_user_about">
+                            {{ form.about_me }}
+                            <button class = "submit_button_1 btn-3" type="submit"> <span>Сохранить изменения</span> </button>
+                        </div>
+                    </div>
+                    <div class = "user_page_main_right">
+                        <div class = "user_nick inter">
+                            {{ request.user.username }}
+                        </div>
+                        <div class = "user_page_user_info muller_medium">
+                            <a href="{{ url('rating') }}" style="color:gray; opacity:0.5;"> Рейтинг: {{ request.user.rate }} </a>
+                        </div>
+                        {% for f in form %}
+                            {% if f == form.avatar or f == form.about_me %}
+                                {% continue %}
+                            {% endif %}
+                            <div class="form_fields">
+                                <label class="form-label" style="margin-bottom: 10px;" for="{{ f.id_for_label }}">{{f.label}}: </label>{{ f }}
+                                <div class="form-error">{{ f.errors }}</div>
+                            </div>
+                        {% endfor %}
+                        <button class = "submit_button_1 btn-3" type="submit"> <span>Сохранить изменения</span> </button>
+                    </div>
+                </div>
+                <div class = "user_friends_frame">
+                    <div class = "subscribed_to muller_medium">
+                        <span>Вы подписаны на:</span>
+                    </div>
+                    <div class = "user_friends">
+                        {% for user_following in user_followings %}
+                            <!-- if loop.index > 3, то выводить ...-->
+                            <a href="{{ url('user_profile', user_following.following_user ) }}">
+                                <img src="{{ user_following.following_user.avatar.url }}" alt="" class = "friend_ava">
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+            </form>
+            {% else %}
+                <div class = "user_page_main">
+                    <div class = "uer_page_main_left">
+                        <img src="{{  user.avatar.url }}" alt="" class = "main_left_ava">
+                    </div>
+                    <div class = "user_page_main_right">
+                        <div class = "user_nick inter">
+                            {{ user.username }}
+                        </div>
+                        <div class = "user_page_user_info muller_medium">
+                            <a href="{{ url('rating') }}"> rate: {{ user.rate }} </a>
+                        </div>
+                        <div class="form_fields">
+                            Номер телефона : {{ user.phone_number }}
+                        </div>
+                        <div class = "form_fields">
+                            {% if user.birth_date %}
+                                Дата Рождения: {{ format_datetime(user.birth_date) }}<br>
+                                {% else %}
+                                    День Рождения: Не указан <br>
+                            {% endif %}
+                            Статус: {{ user.status }}<br>
+                            О себе: {{ user.about_me }}
+                        </div>
+                        {% if request.user.is_authenticated %}
+                            {% if request.user.following.filter(following_user = user) %}
+                                <form action="{{ url('user_profile', user) }}" method = "post">
+                                    {% csrf_token %}
+                                    <input type = "hidden" name = "user_for_unfollow" value = "{{user.username}}" />    
+                                    <button type = "submit">
+                                        Отписаться
+                                    </button>
+                                </form>
+                            {% else %}
+                                <form action="{{ url('user_profile', user) }}" method = "post">
+                                    {% csrf_token %}
+                                    <input type = "hidden" name = "user_for_follow" value = "{{user.username}}" />
+                                    <button type = "submit">
+                                        ⭐ Подписаться ⭐
+                                    </button>
+                                </form>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class = "user_friends_frame">
+                    <div class = "subscribed_to muller_medium">
+                        <span>Подписан на:</span>
+                    </div>
+                    <div class = "user_friends">
+                        {% for user_following in user_followings %}
+                            <!-- if loop.index > 3, то выводить ...-->
+                            <a href="{{ url('user_profile', user_following.following_user ) }}">
+                                <img src="{{ user_following.following_user.avatar.url }}" alt="" class = "friend_ava">
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+                </div>
+        {% endif %}
+    </section>
+    <script>
+        function open_form(button){
+            element = document.getElementById("open_avatar_change_form")
+            element.classList.remove('close')
+            element.classList.add('open')
+            button.classList.add('close')
+        }
+    </script>
+{% endblock %}
+
+{% block main %}
+{% endblock %}

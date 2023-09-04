@@ -1,0 +1,53 @@
+.main_contests{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+.contest{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+.contests_table, th, td, tr{
+    border: 1px solid;
+}
+.contests_table{
+    border-collapse: collapse;
+    width: 100%;
+}
+.contests_table .contests_table_headers{
+    background-color: #544A7D;
+}
+.contest_status.finished{
+    background-color: rgb(252, 88, 88) ;
+}
+.contest_status.pending{
+    background-color: orange;
+}
+.contest_status.load{
+    background-color: rgb(54, 209, 54) ;
+}
+.active_contests_title{
+    padding: 2px 8px;
+    border: 1px solid;
+    border-radius: 3px 3px 0 0;
+}
+.archive_contests_title{
+    padding: 2px 8px;
+    border: 1px solid;
+    border-radius: 3px 3px 0 0;
+}
+.archive_contests, .active_contests{
+    margin-bottom: 50px;
+}
+.contests_table th {
+    background: rgb(84, 74, 125);
+}
+.contests_table tbody tr:nth-child(even){
+    background-color:rgb(221, 217, 217);;
+}
+@media (max-width: 956px) {
+    .contests_table th:nth-child(odd) {
+        background-color: #205885;
+    }
+}

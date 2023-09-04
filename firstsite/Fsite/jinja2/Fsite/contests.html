@@ -1,0 +1,127 @@
+{% extends 'Fsite/base.html' %}
+{% block head%}
+    <link rel="stylesheet" href="{{ static('Fsite/css/contests.css') }}">
+{% endblock %}
+{% block main_left %}
+    <div class = "main_contests">
+    {% if active_contests %}
+            <div class="active_contests">
+                <div class = "active_contests_title">
+                    Предстоящие или текущие соревнования
+                </div>
+                <table class = "contests_table adaptive_table">
+                    <thead>
+                        <tr class = "contests_table_headers">
+                            <th>Название</th>
+                            <th>Начало</th>
+                            <th>Длительность</th>
+                            <th>Статус</th>
+                            <th>Начало соревнования</th>
+                            <th>Перейти</th>
+                        </tr>
+                    </thead>
+                    {% for contest in active_contests %}
+                        <tr>
+                            <td class="contest_name">
+                                {{ contest.name }}
+                            </td>
+                            <td class="contest_begin">
+                                {{ format_datetime(contest.started_at) }}
+                            </td>
+                            <td class="end">
+                                {{ contest.contest_duration() }}
+                            </td>
+                            {% if contest.is_running() %}
+                                <td class = "pending contest_status"> В процессе </td>
+                                <td id = "timer{{contest.pk}}"></td>
+                                <td>
+                                    {% if request.user in contest.judges.all() %}
+                                        <a href="{{ url('contest_checking', contest.id ) }}">Перейти к проверке >></a>
+                                    {% else %}
+                                        <a href="{{ url('contest', contest.id) }}"> Перейти к соревнованию >></a>
+                                    {% endif %}
+
+                                </td>
+                                {% else %}
+                                    {% if not contest.is_finished() %}
+                                        <td class = "load contest_status"> Регистрация </td>
+                                        <td id = "timer{{contest.pk}}"></td>
+                                        {% if request.user in contest.registered_users.all() %}  
+                                            <td>Вы зарегистрированны</td>
+                                            {% else %}
+                                                <td><a href="{{ url('registration_for_contest', contest.id, request.user)  }}"> Зарегистрироваться >></a></td>
+                                        {% endif %}
+                                    {% else %}
+                                        <meta http-equiv="refresh" content="0.1">
+                                    {% endif %}
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </table> 
+            </div>
+        {% endif %}
+        
+        <div class="archive_contests">
+            <div class = "archive_contests_title">
+                Прошедшие соревнования
+            </div>
+            <div style = "max-width: calc(100vw - 40px);">
+
+            </div>
+            <table class = "contests_table adaptive_table">
+                <thead>
+                    <tr class = "contests_table_headers">
+                        <th>Название</th>
+                        <th>Начало</th>
+                        <th>Длительность</th>
+                        <th>Статус</th>
+                        <th>Перейти</th>
+                    </tr>
+                </thead>
+                {% for contest in contests if contest.finished %}
+                    <tr>
+                        <td class="contest_name">
+                            {{ contest.name }}
+                        </td>
+                        <td class="contest_begin">
+                            {{ format_datetime(contest.started_at) }}
+                        </td>
+                        <td class="end">
+                            {{contest.contest_duration()}}
+
+                        </td>
+                        <td class = "finished contest_status">Завершен</td>
+                        <td>
+                            {% if request.user in contest.judges.all() %}
+                                <a href="{{ url('contest_checking', contest.id ) }}">Оценить >></a>
+                            {% else %}
+                                <a href="{{ url('contest', contest.id) }}">Результаты >></a> 
+                            {% endif %}    
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+            
+        </div>
+    </div>
+{% endblock %}
+
+{% block main_right %}
+    {% include ('Fsite/share/user_info.html') %}
+{% endblock %}
+{% block content %}
+    {{ super() }}
+{% endblock %}
+{% block js %}
+    <script src = " {{ static('Fsite/js/moment.js') }} "></script>
+    <script src = "{{ static('Fsite/js/timer.js' ) }}"></script>
+    <script>
+        contests = JSON.parse("{{contest_data | escapejs}}")
+        console.log(contests)
+        checking(contests)
+        setInterval(checking, 1000, contests);
+    </script>
+
+    <script>
+    </script>
+{% endblock %}

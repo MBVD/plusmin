@@ -1,0 +1,12 @@
+<div class = "contest_status red">
+    <span class = "muller_medium">
+        Контест не начался
+    </span>
+    {% if request.user.is_authenticated %}
+        {% if not request.user in contest.registered_users.all() %}
+            <a href="{{url('registration_for_contest', contest.pk, request.user.username)}}">Зарегистрироваться</a>
+        {% endif %}
+        {% else %}
+            <a href="{{url('register')}}"> Авторизуйтесь чтобы зарегистрироваться     </a>
+    {% endif %}
+</div>

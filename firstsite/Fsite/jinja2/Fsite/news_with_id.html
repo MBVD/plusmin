@@ -1,0 +1,32 @@
+{% extends 'Fsite/base.html' %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ static('Fsite/css/news_with_id.css') }}">
+{% endblock %}
+
+{% block main_left %}
+    <div class = "news_content">
+        <div class = "news_content_title nirmala_ui">{{ news.title }}</div>
+        <div class = "inter author">{{ news.author }}<br> <span>{{ format_datetime(news.time_create) }}</span></div>
+        <div class = "inter_font news_content_text">
+            <p>{{ news.content | safe }}</p>
+        </div>
+        
+
+    </div>
+    {% if news.hidden_content %}
+        <div class = "news_content hidden">
+            <div class = "inter_font news_content_text">
+                {{ news.hidden_content | safe }}
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block main_right %}
+    {% include ('Fsite/share/user_info.html') %}
+{% endblock %}
+
+{% block main %}
+    {{ super() }}
+{% endblock %}

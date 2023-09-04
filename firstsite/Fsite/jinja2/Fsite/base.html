@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <link type="text/css" href="{{ static('Fsite/css/base.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ static ('flags/sprite.css') }}">
+    <script src="{{ static('Fsite/js/jquery-3.6.1.js') }}"></script>
+    {% block head%}{% endblock %}
+    <style>
+        @font-face {
+         font-family: MullerMedium; 
+         src: url( "{{ static('Fsite/fonts/MullerMedium.ttf') }}" );
+        }
+        @font-face {
+            font-family: Nirmala UI;
+            src: url( "{{ static('Fsite/fonts/Nirmala.ttf') }}" );
+        }
+        @font-face {
+            font-family: Inter;
+            src: url( "{{ static('Fsite/fonts/Inter-Medium.ttf') }}" );
+        }
+    </style>
+</head>
+<body style=" margin: 0px; background-image: url('{{ static('Fsite/images/base_background.jpg') }}'); background-repeat: no-repeat; background-size: cover; background-position: top; background-attachment: fixed; height: 100vh;">
+    <div class = "container">
+        {% include ('Fsite/share/header.html') %}
+        <div style = "margin: 0 20px; margin-top: 60px; @media all and (max-width: 956px){margin: 0px 0px}">
+            {% block content %}
+            {% endblock %}
+            {% block main %}
+                <div class = "main">
+                    <div class = "main_left">
+                        {% block main_left %}
+                            <!-- верстка слева страницы -->
+                        {% endblock %}
+                    </div>
+                    <div class = "main_right">
+                        <div class = "main_user_frame">
+                            {% block main_right %}
+                                <!-- инфо справа -->
+                            {% endblock %}
+                        </div>
+                    </div>
+                </div>
+            {% endblock %}
+        </div>
+    </div>
+    <footer style = "background: linear-gradient(180deg, #241F36 0%, #241F36 100%); color: rgb(255, 212, 82); min-width: 100%;">
+        <div style = "text-align: center;">
+        <p>
+            При поддержке Булата Калимашева
+        </p>
+        Copyright {{ time.year }}
+        </div>
+    </footer>
+    {% if not request.user.is_authenticated %}
+        <script>
+            localStorage.setItem("sec", 0);
+            localStorage.setItem("min", 0);
+            localStorage.setItem("hrs", 0);
+        </script>
+        {% else %}
+            <script src = " {{ static ('Fsite/js/clock.js') }} " ></script>
+    {% endif %}
+    {% block js %}
+    {% endblock %}
+</body>
+</html>

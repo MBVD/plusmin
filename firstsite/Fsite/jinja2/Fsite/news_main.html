@@ -1,0 +1,81 @@
+{% extends 'Fsite/base.html' %}
+{% block head%} 
+    <link rel="stylesheet" href="{{ static('Fsite/css/news_main.css') }}">
+{% endblock %}
+{% block content %}
+    <div class = "news_title">
+        <div class = "news_title_center">
+            Статьи
+            <div>
+                <a onclick = 'send_data("{{ page_number}}")' id = "back_button">←</a>
+                <a onclick = 'send_data("{{ page_number + 1}}")' id = "next_button">→</a>
+            </div>
+        </div>
+    </div>
+    <section class = "news_main">
+        <div class = "main_left">
+            <div class = "main_left_center">
+                {% for single_news in news %}
+                    {% if loop.index0 % 2 == 0 %}
+                        <div id = "{{ loop.index0 }}" class = "half_content">
+                            <a href="{{ url('news_with_id', single_news.id) }} " id = "{{ loop.index0  }}title">📰{{single_news.title}} <small><sub id = "{{ loop.index0 }}time_create">{{single_news.time_create.date()}}</sub></small></a> 
+                        </div>  
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <div class = "main_right">
+            <div class = "main_right_center">
+                {% for single_news in news %}
+                    {% if loop.index0 % 2 == 1 %}
+                        <div id="{{loop.index0}}" class = "half_content">
+                            <a href="{{ url('news_with_id', single_news.id) }} " id = "{{ loop.index0  }}title">📰{{single_news.title}} <small><sub id = "{{ loop.index0 }}time_create">{{single_news.time_create.date()}}</sub></small></a>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{% block js %}
+<script>
+    async function send_data(number){
+        url = '/news/'
+        var data = new FormData();
+        data.append('number', number)
+        var request = new XMLHttpRequest();
+        request.open('POST', url);
+        request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        request.setRequestHeader("X-CSRFToken", "{{csrf_token}}");
+        request.onload = function() {
+            console.log(JSON.parse(request.response)["response"]);
+            change_data(JSON.parse(request.response)["response"]);
+            change_buttons(JSON.parse(request.response)["page_number"])
+        };
+        request.send(data)
+    }
+    function change_buttons(data){
+        back_button = document.getElementById("back_button")
+        next_button = document.getElementById("next_button")
+        next_button.setAttribute("onclick", `send_data(${(parseInt(data) + 1).toString()})`)
+        back_button.setAttribute("onclick", `send_data(${(parseInt(Math.max(data - 1, 1))).toString()} )`) 
+    }
+    function change_data(data){
+        count = "{{ elements_number }}"
+        
+        for (let i = 0; i<count; i++){
+            element = document.getElementById(i)
+            title = document.getElementById(i+'title')
+            if (data[i]){
+                element.style.display = "flex";
+                time_create = new Date (data[i]['time_create'])
+                title.innerHTML = '📰' + data[i]['title'] + ` <small><sub>${ time_create.getFullYear() + '-' + (time_create.getMonth()+1) + '-' +time_create.getDate()}</sub></small>`
+            }
+            else{
+                element.style.display = "none";
+            }
+        }
+    }  
+</script>
+
+{% endblock %}

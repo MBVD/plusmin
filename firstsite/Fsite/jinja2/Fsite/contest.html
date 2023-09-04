@@ -1,0 +1,29 @@
+{% extends 'Fsite/base.html' %}
+# ПЕРЕДЕЛАТЬ ССЫЛКУ
+{% block head %}
+    <link rel="stylesheet" href="{{static('Fsite/css/contest.css')}}">
+{% endblock %}
+
+{% block main_left %}
+    <div class = "content">
+        {% if contest.is_finished() %}
+            <!-- контест закончился -->
+            {% include('Fsite/contest_share/finished.html') %}
+        {% else %}
+            {% if not contest.is_running() %}
+                <!-- контест не начался -->
+                {% include('Fsite/contest_share/not_started.html') %} 
+            {% else %}
+                <!--контест идет  -->
+                {% include('Fsite/contest_share/running.html') %}
+            {% endif %}
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block main_right %}
+    {% include ('Fsite/share/user_info.html') %}
+{% endblock %}
+{% block main %}
+    {{ super()}}
+{% endblock %}

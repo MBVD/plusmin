@@ -1,0 +1,131 @@
+{% extends 'Fsite/base.html' %}
+{% block head %}
+    <link rel="stylesheet" href="{{ static('Fsite/css/problems.css') }}">
+{% endblock %}
+{% block main_left %}
+    <div style="font-size: 30px; text-align: center; color: #544A7D;">Задачи</div>
+    <form action="" method = "get">
+        {{my_filter.form}}
+        <button type = "submit">Использовать фильтры</button>
+    </form>
+    <table class = "adaptive_table problems_table">
+        <thead>
+            <tr class = "table_header">
+                <th>№</th>
+                <th>Задача</th>
+                <th>Предмет</th>
+                <th>Источник</th>
+                <th>Время создания</th>
+                <th>Рейтинг</th>
+                <th>Теги</th>
+                <th>Перейти</th>
+            </tr>
+        </thead>
+        
+        {% for problem in page_obj %}
+                <tr>
+                    <td ><a href="{{ url('problem', problem.id) }}">{{ problem.pk }}</a></td>
+                    <td ><a href="{{ url('problem', problem.id) }}">{{ problem.title }}</a></td>
+                    {% if problem.subject %}
+                        <td > {{ problem.subject }}</td>
+                    {% else %}
+                        <td >-</td>
+                    {% endif %}
+                    <td > {{ problem.source }}</td>
+                    <td >{{ problem.time_create.date() }}</td>
+                    {% if problem.rate %}
+                        <td >{{ problem.rate }}</td>
+                    {% else %}
+                        <td >-</td>
+                    {% endif %}
+                    {% if problem.tags.all() %}
+                        <td>{% for tag in problem.tags.all() %} {% if loop.index0 == 0 %}{{tag.name}}{% else %}{{', ' + tag.name }} {% endif %}{% endfor %}</a></td>
+                    {% else %}
+                        <td>-</td>
+                    {% endif %}
+                    <td ><a href="{{ url('problem', problem.id) }}">Перейти >></a></td>
+                </tr>
+        {% endfor %}
+    </table>
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous() %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number() }}">previous</a>
+            {% endif %}
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            {% if page_obj.has_next() %}
+                <a href="?page={{ page_obj.next_page_number() }}">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+    <div style="font-size: 30px; text-align: center; margin-top: 50px; color: #544A7D;">История</div>
+    <form action="{{url('problems')}}">
+        Поиск событий <input placeholder="Введите год" class = "main_left_search" maxlength="10" name = 'history_year' type="number"/>
+        или <input placeholder="Событие" class = "main_left_search" maxlength="10" name = 'history'/>
+        <button>Поиск</button>
+    </form>
+    {% for event in history %}
+        {% if event.time_start %}
+            {% if event.time_start > 0 %}
+                {{event.time_start}}
+            {% else %}
+                {{event.time_start|abs}} до н.э.
+            {% endif %}
+            {% if event.time_end %}
+                {% if event.time_end > 0 %}
+                    {% if event.time_start > 0 %}
+                        - {{event.time_end}}гг. | 
+                    {% else %}
+                        - {{event.time_end|abs}} н.э. | 
+                    {% endif %}
+                {% else %}
+                    - {{event.time_end|abs}} до н.э. |
+                {% endif %}
+            {% endif %}
+        {% endif %}
+        {{ event.content }}<br>
+    {% endfor %}
+    <form action="{{url('problems')}}">
+        Генерация вопросов с ответом <input style="margin-top: 5px; width: 280px" placeholder="Введите количество случайных вопросов" class = "main_left_question_number" maxlength="40" size="50" name = 'history_questions_number' type="number"/>
+        <button>Показать</button>
+    </form>
+    <div>
+        {% for question in history_questions %}
+                <br>Вопрос №{{ loop.index }}.<br>
+                • {{ question.question | safe}}<br>
+                {% if question.answer %}
+                    {% if question.show_solution %}
+                        Ответ: <b>{{question.answer}}</b><br>
+                    {% endif %}
+                {% endif %}
+        {% endfor %}
+    </div>
+    <form action="{{url('download_history_tests')}}">
+        Генерация тестов с вариантами ответа <input style="margin-top: 5px; width: 280px" placeholder="Введите количество случайных вопросов" class = "main_left_question_number" min="1" max="40" name = 'history_test_questions_number' type="number"/>
+        <input style="margin-top: 5px; width: 215px" placeholder="Введите количество вариантов" class = "main_left_question_number" min="1" max="30" name = 'history_test_cases' type="number"/>
+        <button>Скачать</button>
+    </form>
+    <div>
+        {% for question in history_test_questions %}
+                <br>Вопрос №{{ loop.index }}.<br>
+                • {{ question[0].question | safe}}<br>
+                A) {{question[1][0]}}
+                B) {{question[1][1]}}
+                C) {{question[1][2]}}
+                D) {{question[1][3]}}
+        {% endfor %}
+        {% if history_test_questions %}
+        <br>Ответы: {{correct_answers}}
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block main_right %}
+    {% include ('Fsite/share/user_info.html') %}
+{% endblock %}
+
+{% block main %}
+    {{super()}}
+{% endblock %}

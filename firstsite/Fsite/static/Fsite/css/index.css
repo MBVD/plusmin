@@ -1,0 +1,75 @@
+.main_content_title a{
+    color: #544A7D;
+    font-size: 30px;
+    font-weight: 400 !important;
+    letter-spacing: -0.06em;
+    font-style: normal;
+    text-decoration: none;
+
+}
+.main_content_title h2 {
+    margin-bottom: 10px;
+}
+.content{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+    margin-left: 30px;
+    border-radius: 0.28571429rem;
+    border: 1px solid rgba(34,36,38,.15);
+    padding: 1em; 
+    background-color: #F1F1F1;
+    box-shadow: 1px 1px 2px 1px rgb(34 36 38 / 15%);
+}
+.user_nick{
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-family: Inter;
+}
+.user_nick a{
+    text-decoration: none;
+    color: gray;
+}
+.user_nick span{
+    font-size: 12px;
+}
+.content_text{
+    margin-top: 0px;
+    font-style: normal;
+    font-weight: 200;
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: -0.06em;
+}
+.rating_main table{
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+    background-color: #FFD452;
+}
+.rating_main table, tr, td, th{
+    border: 1px solid black;
+}
+.rating_main td.black{
+    background-color: rgb(221, 217, 217); /*тут можно поменять под цвет самого сайта*/
+}
+.content_text *{
+    max-width: 100% !important;
+}
+@media all and (max-width: 956px){
+    .content_text *{
+        height: auto !important;
+    }
+    .main_right{
+        display: none;
+    }
+    .main_left{
+        width: 100%;   
+    }
+    .main_left .content{
+        margin-left: 0px;
+    }
+    .main{
+        padding-top: 20px;
+    }
+}

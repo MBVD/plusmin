@@ -1,0 +1,63 @@
+{% extends 'Fsite/base.html' %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ static('Fsite/css/problem.css') }}">
+{% endblock %}
+
+{% block main_left %}
+    <div class = "problem_content">
+        <div class = "problem_content_title nirmala_ui">{{ problem.title }}</div>
+        <div class = "inter author">{{ problem.author }} ({{problem.source}}) <br> <span>{{ format_datetime(problem.time_create) }}</span></div>
+        <div class = "inter_font problem_content_text">
+            <p>{{ problem.content | safe }}</p>
+        </div>
+    </div>
+    {% if form %}
+        <div class = "problem_content">
+            <form action="{{ url('problem_in_contest', contest.id, problem.id) }}" method = "post" enctype="multipart/form-data">
+                {% csrf_token %}
+                    <div style = "display: flex; justify-content: space-between;">
+                        {% for field in form %}
+                            {% if field == form.image_solution %}
+                                {% continue %}
+                            {% endif %}
+                        {{ field }}
+                        <div class="form-error">{{ field.errors }}</div>
+                        {% endfor %}
+                        <div style = "display: flex; flex-direction: column;">
+                            {% if user_solution.image_solution %}
+                            <div>
+                                <img src="{{ user_solution.image_solution.url }}" alt="" style="max-height: 200px; width: auto;">    
+                            </div>
+                            {% endif %}
+                            {{ form.image_solution }}
+                        </div>
+                </div>
+                
+                
+                <button type = "submit" style="width: 100%; margin-top:10px">Отправить</button>
+            </form>
+        </div>
+        {% else %}
+            <div class = "problem_content hidden">
+                <div class = "problem_content_title nirmala_ui">
+                    Решение
+                </div>
+                {% if problem.show_solution%}
+                    {{ problem.correct_solution | safe}}
+                    {% else %}
+                        Решение на время контеста не доступно
+                {% endif %}
+            </div>
+    {% endif %}
+    
+    
+{% endblock %}
+
+{% block main_right %}
+    {% include ('Fsite/share/user_info.html') %}
+{% endblock %}
+
+{% block main %}
+    {{ super() }}
+{% endblock %}

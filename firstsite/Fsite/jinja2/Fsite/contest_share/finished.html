@@ -1,0 +1,45 @@
+<div class="contest_header">
+    <a href="{{url('contests')}}">←</a>
+    <div class = "contest_name inter">{{contest.name}}</div>
+    <div class = "contest_status red">
+        <span class = "muller_medium">
+            Контест завершен
+        </span>
+    </div>
+    
+</div>
+<table class = "result_info inter" rules="all">
+    <tr class = "">
+        <td class = "inter column_names">Пользователь</td>
+        {% for problem in contest.problems.all() %}
+            <td class = "inter column_names">{{problem}}</td>
+        {% endfor %}
+        <td class = "inter column_names">Итог</td>
+    </tr>
+    {% for user in registered_users %}
+        <tr>
+            <td>
+                <a href="{{ url('user_profile', user)}}">{{ user }}</a>
+            </td>
+            {% for problem in contest.problems.all() %}
+                <td>
+                    {% if user.solutions.filter(problem=problem, contest= contest).first().mark %}
+                            {{ user.solutions.filter(problem=problem, contest= contest).first().mark }}
+                        {% elif not user.solutions.filter(problem=problem, contest = contest).first() %}
+                            -
+                        {% else %}
+                            не проверено
+                    {% endif %}
+                </td>
+            {% endfor %}
+            <td>
+                {% if user.mark_sum %}
+                    {{ user.mark_sum }}
+                    {% else %}
+                        -
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+    
+</table>

@@ -1,0 +1,48 @@
+{% extends 'Fsite/base.html' %}
+{% block head %}
+    <link rel="stylesheet" href="{{ static('Fsite/css/about.css') }}">
+{% endblock %}
+{% block content %}
+    <div class = "about_main">
+        <div class = "about_main_left">
+            <div class = "about_title monserat_sanserif">
+                <div style = "display: flex;" class = "image_frame_header">
+                    <img src = "{{ static('Fsite/images/people.png') }}" width="200" height="200" style = "margin-right: auto; margin-left: auto;">
+                </div>
+                <div style = "text-align: center;">
+                    <h2>О нас</h2>
+                    <span class = "about_decription_up">Сайт plus&minus является уникальной образовательной платформой для подготовки к олимпиадам различных уровней</p>
+                </div>
+            </div>
+        </div>
+        <div class = "about_main_right">
+            <div class = "research monserat_sanserif">
+                <div style = "display: flex;" class = "image_frame">
+                    <img src="{{ static('Fsite/images/target.png') }}" width="120" height="120" style = "margin-top: auto; margin-bottom: auto;">
+                </div>
+                <div class = "description">
+                    <h3>Цель</h3>
+                    <span>Наша основная цель - подготовить школьников и студентов к соревнованиям международного уровня по различным предметам</span>
+                </div>
+            </div>
+            <div class = "strategy monserat_sanserif">
+                <div style = "display: flex;" class = "image_frame">
+                    <img src="{{ static('Fsite/images/solution.png') }}" width="120" height="120" style = "margin-top: auto; margin-bottom: auto;">
+                </div>
+                <div class = "description">
+                    <h3>Решение</h3>
+                    <span>Для решения поставленной цели мы подготовили качественный материал, онлайн-соревнования и систему рейтинга для повышения спортивного интереса</p>
+                </div>
+            </div>
+            <div class = "design monserat_sanserif">
+                <div style = "display: flex;" class = "image_frame">
+                    <img src="{{ static('Fsite/images/design.png') }}" width="120" height="120" style = "margin-top: auto; margin-bottom: auto;">
+                </div>
+                <div class = "description">
+                    <h3>Дизайн</h3>
+                    <span>Для заботы о пользователях мы пригласили хорошего дизайнера, который помог нам с оформлением сайта</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
